@@ -1,0 +1,29 @@
+# Python
+venv/
+__pycache__/
+.venv/
+.Python
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+
+# Data and models
+models/
+data/
+
+# Env файлы (секреты)
+.env
+**/.env
+!**/.env.example
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
