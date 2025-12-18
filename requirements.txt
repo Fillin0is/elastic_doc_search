@@ -1,0 +1,9 @@
+elasticsearch==9.2.0
+
+sentence-transformers>=2.2.0
+torch>=2.0.0
+
+python-docx>=0.8.11
+lxml>=4.9.0
+
+ipykernel>=6.0.0
