@@ -5,3 +5,7 @@ def len_json(file: str) -> int:
     print(len(len_str))
 
 len_json('data/processed/data_processed.json')
+
+
+def install_embed_model():
+    pass
