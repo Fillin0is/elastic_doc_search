@@ -1,9 +1,13 @@
 import os
+from pathlib import Path
 from elasticsearch import Elasticsearch
 
-RAW_DATA = "data/raw"
-MODEL_PATH = 'models/all-mpnet-base-v2'
-PROCESSED_DATA = "data/processed/data_processed.json"
+# Корень проекта (родитель папки pipeline)
+PROJECT_ROOT = Path(__file__).parent.parent
+
+RAW_DATA = PROJECT_ROOT / "data/raw"
+MODEL_PATH = PROJECT_ROOT / 'models/all-mpnet-base-v2'
+PROCESSED_DATA = PROJECT_ROOT / "data/processed/data_processed.json"
 
 INDEX_NAME = "alta_index"
 
