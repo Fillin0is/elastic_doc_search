@@ -39,7 +39,7 @@ def bulk_upload(batch_size=100):
                 if 'error' in item['index']:
                     print(f"  {item['index']['error']}")
         else:
-            print(f'Batch {i // batch_size} OK ({len(batch)} docs)')
+            print(f'Batch {i // batch_size} OK ({len(batch)} chunks)')
 
         total_indexed += len(batch)
 

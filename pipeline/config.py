@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 from elasticsearch import Elasticsearch
 
-# Корень проекта (родитель папки pipeline)
+
 PROJECT_ROOT = Path(__file__).parent.parent
 
 RAW_DATA = PROJECT_ROOT / "data/raw"
