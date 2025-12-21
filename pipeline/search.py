@@ -22,7 +22,7 @@ result = es.search(
 
 hits = result.body["hits"]["hits"]
 for hit in hits:
-    print(f'Filename : {hit["_source"]["title"]}')
-    print(f'Text: {hit["_source"]["content"]}')
+    print(f'Filename : {hit["_source"]["filename"]}')
+    print(f'Text: {hit["_source"]["chunk_text"]}')
     print(f'Score : {hit["_score"]}')
     print('*' * 50)
