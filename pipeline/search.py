@@ -4,7 +4,7 @@ from config import es, MODEL_PATH, INDEX_NAME
 
 
 def get_embedding(text: str) -> list[float]:
-    model = SentenceTransformer(MODEL_PATH)
+    model = SentenceTransformer(str(MODEL_PATH))
     return model.encode(text)
 
 query = "текст про таможенную декларацию"
