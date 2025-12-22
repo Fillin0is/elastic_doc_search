@@ -29,13 +29,13 @@ def search_documents(query: str):
             documents[doc_id] = {
                 "doc_id": doc_id,
                 "filename": hit["_source"]["filename"],
-                "best_score": hit["_score"],
+                "best_score": round(hit["_score"], 2),
                 "chunks": []
             }
         documents[doc_id]["chunks"].append({
             "chunk_text": hit["_source"]["chunk_text"],
             "chunk_index": hit["_source"]["chunk_index"],
-            "score": hit["_score"]
+            "score": round(hit["_score"], 2)
         })
 
     return sorted(documents.values(), key=lambda x: x["best_score"], reverse=True)
@@ -53,7 +53,7 @@ def get_document_chunks(knn_documents: dict):
         full_documents[document["doc_id"]] = {
             "doc_id": document["doc_id"],
             "filename": document["filename"],
-            "score": round(document["best_score"], 2),
+            "score": document["best_score"],
             "full_text": ' '.join([hit["_source"]["chunk_text"] for hit in result.body["hits"]["hits"]])
         }
 
