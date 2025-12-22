@@ -51,6 +51,32 @@ services:
       elasticsearch:
         condition: service_healthy
 
+  api:
+    build: ../api
+    container_name: api
+    ports:
+      - "8000:8000"
+    environment:
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+    volumes:
+      - ../models:/app/models
+    networks:
+      - elastic_net
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+
+  frontend:
+    build: ../frontend
+    container_name: frontend
+    ports:
+      - "8501:8501"
+    networks:
+      - elastic_net
+    depends_on:
+      - api
+
 volumes:
   elastic_data:
     driver: local

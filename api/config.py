@@ -14,6 +14,6 @@ MODEL_PATH = PROJECT_ROOT / 'models/all-mpnet-base-v2'
 
 # auth:
 es = Elasticsearch(
-    'http://localhost:9200',
+    'http://elasticsearch:9200',
     basic_auth=('elastic', os.getenv('ELASTIC_PASSWORD', 'changeme'))
 )
