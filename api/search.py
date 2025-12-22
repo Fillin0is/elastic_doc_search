@@ -16,7 +16,7 @@ def search_documents(query: str):
             'field': 'text_vector',
             'query_vector': query_embedding,
             'num_candidates': 100, 
-            'k': 5 
+            'k': 3
         }
     )
 
@@ -59,11 +59,12 @@ def get_document_chunks(knn_documents: dict):
 
     return full_documents
 
+
 if __name__ == '__main__':
     results = search_documents('Таможенная декларация Российской Федерации')
 
     full = get_document_chunks(results)
-    
+
     for data in full.values():
         print(data)
         print()
