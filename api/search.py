@@ -53,18 +53,17 @@ def get_document_chunks(knn_documents: dict):
         full_documents[document["doc_id"]] = {
             "doc_id": document["doc_id"],
             "filename": document["filename"],
-            "score": document["best_score"],
-            "full_text": result.body["hits"]["hits"]
+            "score": round(document["best_score"], 2),
+            "full_text": ' '.join([hit["_source"]["chunk_text"] for hit in result.body["hits"]["hits"]])
         }
 
     return full_documents
 
 if __name__ == '__main__':
     results = search_documents('Таможенная декларация Российской Федерации')
-    print("RESULT")
-    print(results)
-    print()
 
     full = get_document_chunks(results)
-    print()
-    print(full)
+    
+    for data in full.values():
+        print(data)
+        print()
