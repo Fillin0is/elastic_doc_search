@@ -4,10 +4,11 @@ import os
 from pathlib import Path
 
 
-PROJECT_ROOT = Path(__file__).parent.parent
-
 INDEX_NAME = "alta_index"
-MODEL_PATH = PROJECT_ROOT / 'models/all-mpnet-base-v2'
+
+# inside Docker: /app/models/...
+# local: ../models/... от api/
+MODEL_PATH = Path(__file__).parent / 'models/all-mpnet-base-v2'
 
 # non-auth:
 # es = Elasticsearch('http://localhost:9200')
