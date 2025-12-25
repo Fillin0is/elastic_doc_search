@@ -28,7 +28,7 @@ MAPPING = {
 
         'text_vector': {
             'type': 'dense_vector',
-            'dims': 768,
+            'dims': 1024,
             'index': True,
             'similarity': 'cosine'
         }
