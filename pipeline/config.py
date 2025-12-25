@@ -7,7 +7,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).parent.parent
 
 RAW_DATA = PROJECT_ROOT / "data/raw"
-MODEL_PATH = PROJECT_ROOT / 'models/all-mpnet-base-v2'
+EMBED_MODEL_PATH = PROJECT_ROOT / 'models/multilingual-e5-large'
 PROCESSED_DATA = PROJECT_ROOT / "data/processed/data_processed.json"
 
 INDEX_NAME = "alta_index"

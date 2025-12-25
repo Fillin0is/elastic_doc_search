@@ -17,6 +17,6 @@ if st.button("Искать"):
 
         for doc_data in documents.values():
             with st.expander(f'Файл: {doc_data["filename"]}, Результат совпадения: {doc_data["score"]}'):
-                st.write(doc_data["full_text"])
+                st.markdown(doc_data["full_text"], unsafe_allow_html=True)
     else:
         st.error("Ошибка при поиске")

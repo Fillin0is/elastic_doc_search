@@ -1,7 +1,7 @@
 from sentence_transformers import SentenceTransformer
 import json
 
-from config import RAW_DATA, MODEL_PATH
+from config import RAW_DATA, EMBED_MODEL_PATH
 from clean import clean_data
 
 
@@ -45,9 +45,9 @@ def process_documents_with_chunks(documents: dict[dict]) -> dict[dict]:
     return processed
     
 
-def generate_embeddings(chunks, model_path=MODEL_PATH, batch_size=32):
-    print(f'Loading model from {model_path}')
-    model = SentenceTransformer(model_path)
+def generate_embeddings(chunks, model_path=EMBED_MODEL_PATH, batch_size=32):
+    print(f'Loading model from {str(model_path)}')
+    model = SentenceTransformer(str(model_path), tokenizer_kwargs={"fix_mistral_regex": True})
 
     texts = [chunk['chunk_text'] for chunk in chunks]
 

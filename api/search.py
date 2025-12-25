@@ -1,10 +1,10 @@
 from sentence_transformers import SentenceTransformer
 
-from config import es, INDEX_NAME, MODEL_PATH
+from config import es, INDEX_NAME, EMBED_MODEL_PATH
 
 
 def get_embedding(query: str) -> list[float]:
-    model = SentenceTransformer(str(MODEL_PATH))
+    model = SentenceTransformer(str(EMBED_MODEL_PATH))
     return model.encode(query)
 
 def search_documents(query: str):
@@ -12,11 +12,27 @@ def search_documents(query: str):
 
     result = es.search(
         index=INDEX_NAME,
+        query={
+            "match": {
+                "chunk_text": query
+            }
+        },
         knn={
-            'field': 'text_vector',
-            'query_vector': query_embedding,
-            'num_candidates': 100, 
-            'k': 3
+            "field": "text_vector",
+            "query_vector": query_embedding,
+            "num_candidates": 100, 
+            "k": 10
+        },
+        size=3,
+        highlight={
+            "fields": {
+                "chunk_text": {
+                    "pre_tags": ["<mark>"],
+                    "post_tags": ["</mark>"],
+                    "fragment_size": 2000,
+                    "number_of_fragments": 1
+                }
+            }
         }
     )
 
@@ -35,7 +51,8 @@ def search_documents(query: str):
         documents[doc_id]["chunks"].append({
             "chunk_text": hit["_source"]["chunk_text"],
             "chunk_index": hit["_source"]["chunk_index"],
-            "score": round(hit["_score"], 2)
+            "score": round(hit["_score"], 2),
+            "highlights": hit.get("highlight", {}).get("chunk_text", [])
         })
 
     return sorted(documents.values(), key=lambda x: x["best_score"], reverse=True)
@@ -43,6 +60,12 @@ def search_documents(query: str):
 def get_document_chunks(knn_documents: dict):
     full_documents = {}
     for document in knn_documents:
+
+        highlighted_chunks = {}
+        for chunk in document["chunks"]:
+            if chunk["highlights"]:
+                highlighted_chunks[chunk["chunk_index"]] = chunk["highlights"][0]
+
         result = es.search(
             index=INDEX_NAME,
             query={"term": {"doc_id": document["doc_id"]}},
@@ -50,11 +73,19 @@ def get_document_chunks(knn_documents: dict):
             size=100
         )
 
+        full_text_parts = []
+        for hit in result.body["hits"]["hits"]:
+            idx = hit["_source"]["chunk_index"]
+            if idx in highlighted_chunks:
+                full_text_parts.append(highlighted_chunks[idx])
+            else:
+                full_text_parts.append(hit["_source"]["chunk_text"])
+
         full_documents[document["doc_id"]] = {
             "doc_id": document["doc_id"],
             "filename": document["filename"],
             "score": document["best_score"],
-            "full_text": ' '.join([hit["_source"]["chunk_text"] for hit in result.body["hits"]["hits"]])
+            "full_text": ' '.join(full_text_parts)
         }
 
     return full_documents
