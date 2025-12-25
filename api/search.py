@@ -23,7 +23,7 @@ def search_documents(query: str):
             "num_candidates": 100, 
             "k": 10
         },
-        size=3,
+        size=5,
         highlight={
             "fields": {
                 "chunk_text": {
@@ -83,7 +83,7 @@ def get_document_chunks(knn_documents: dict):
             if idx in highlighted_chunks:
                 full_text_parts.append(highlighted_chunks[idx])
             elif idx in knn_only_chunks:
-                full_text_parts.append(f'<mark class="knn">{knn_only_chunks[idx]}</mark>')
+                full_text_parts.append(f'<mark>{knn_only_chunks[idx]}</mark>')
             else:
                 full_text_parts.append(hit["_source"]["chunk_text"])
 
