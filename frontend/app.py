@@ -14,7 +14,7 @@ mark.knn { background-color: lightblue; }
 
 st.title("Альта-Поиск")
 
-query = st.text_input("Введите запрос:", on_change=True)
+query = st.text_input("Введите запрос:")
 
 if st.button("Искать"):
     response = requests.get(f"{API_URL}/search", params={"query": query})
