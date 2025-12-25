@@ -65,10 +65,14 @@ def get_document_chunks(knn_documents: dict):
         highlighted_chunks = {}
         knn_only_chunks = {}
         for chunk in document["chunks"]:
+            print(f"chunk {chunk['chunk_index']}: highlights={bool(chunk['highlights'])}, is_knn_only={chunk['is_knn_only']}")
             if chunk["highlights"]:
                 highlighted_chunks[chunk["chunk_index"]] = chunk["highlights"][0]
             elif chunk["is_knn_only"]:
                 knn_only_chunks[chunk["chunk_index"]] = chunk["chunk_text"]
+
+        print(f"highlighted_chunks: {list(highlighted_chunks.keys())}")
+        print(f"knn_only_chunks: {list(knn_only_chunks.keys())}")
 
         result = es.search(
             index=INDEX_NAME,
