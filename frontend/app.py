@@ -5,6 +5,13 @@ import requests
 
 API_URL = "http://api:8000"
 
+st.markdown("""
+<style>
+mark { background-color: yellow; }
+mark.knn { background-color: lightblue; }
+</style>
+""", unsafe_allow_html=True)
+
 st.title("Альта-Поиск")
 
 query = st.text_input("Введите запрос:")

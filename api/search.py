@@ -52,7 +52,8 @@ def search_documents(query: str):
             "chunk_text": hit["_source"]["chunk_text"],
             "chunk_index": hit["_source"]["chunk_index"],
             "score": round(hit["_score"], 2),
-            "highlights": hit.get("highlight", {}).get("chunk_text", [])
+            "highlights": hit.get("highlight", {}).get("chunk_text", []),
+            "is_knn_only": not bool(hit.get("highlight", {}).get("chunk_text", []))
         })
 
     return sorted(documents.values(), key=lambda x: x["best_score"], reverse=True)
@@ -62,9 +63,12 @@ def get_document_chunks(knn_documents: dict):
     for document in knn_documents:
 
         highlighted_chunks = {}
+        knn_only_chunks = {}
         for chunk in document["chunks"]:
             if chunk["highlights"]:
                 highlighted_chunks[chunk["chunk_index"]] = chunk["highlights"][0]
+            elif chunk["is_knn_only"]:
+                knn_only_chunks[chunk["chunk_index"]] = chunk["chunk_text"]
 
         result = es.search(
             index=INDEX_NAME,
@@ -78,6 +82,8 @@ def get_document_chunks(knn_documents: dict):
             idx = hit["_source"]["chunk_index"]
             if idx in highlighted_chunks:
                 full_text_parts.append(highlighted_chunks[idx])
+            elif idx in knn_only_chunks:
+                full_text_parts.append(f'<mark class="knn">{knn_only_chunks[idx]}</mark>')
             else:
                 full_text_parts.append(hit["_source"]["chunk_text"])
 
