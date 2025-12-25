@@ -29,7 +29,7 @@ def search_documents(query: str):
                 "chunk_text": {
                     "pre_tags": ["<mark>"],
                     "post_tags": ["</mark>"],
-                    "fragment_size": 2000,
+                    "fragment_size": 500,
                     "number_of_fragments": 1
                 }
             }
@@ -66,6 +66,7 @@ def get_document_chunks(knn_documents: dict):
         knn_only_chunks = {}
         for chunk in document["chunks"]:
             print(f"chunk {chunk['chunk_index']}: highlights={bool(chunk['highlights'])}, is_knn_only={chunk['is_knn_only']}")
+            print(f"chunk {chunk['chunk_index']}: highlights={chunk['highlights'][:100] if chunk['highlights'] else 'empty'}")
             if chunk["highlights"]:
                 highlighted_chunks[chunk["chunk_index"]] = chunk["highlights"][0]
             elif chunk["is_knn_only"]:
