@@ -8,7 +8,7 @@ INDEX_NAME = "alta_index"
 
 # inside Docker: /app/models/...
 # local: ../models/... от api/
-EMBED_MODEL_PATH = Path(__file__).parent / 'models/all-mpnet-base-v2'
+EMBED_MODEL_PATH = Path(__file__).parent / 'models/multilingual-e5-large'
 
 # non-auth:
 # es = Elasticsearch('http://localhost:9200')
