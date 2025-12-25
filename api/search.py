@@ -30,7 +30,7 @@ def search_documents(query: str):
                     "pre_tags": ["<mark>"],
                     "post_tags": ["</mark>"],
                     "fragment_size": 500,
-                    "number_of_fragments": 1
+                    "number_of_fragments": 0
                 }
             }
         }
